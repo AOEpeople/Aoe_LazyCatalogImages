@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aoe_LazyCatalogImages>
+            <version>0.0.1</version>
+        </Aoe_LazyCatalogImages>
+    </modules>
+    <global>
+        <helpers>
+            <Aoe_LazyCatalogImages>
+                <class>Aoe_LazyCatalogImages_Helper</class>
+            </Aoe_LazyCatalogImages>
+            <catalog>
+                <rewrite>
+                    <image>Aoe_LazyCatalogImages_Helper_Catalog_Image</image>
+                </rewrite>
+            </catalog>
+        </helpers>
+        <models>
+            <Aoe_LazyCatalogImages>
+                <class>Aoe_LazyCatalogImages_Model</class>
+            </Aoe_LazyCatalogImages>
+            <core>
+                <rewrite>
+                    <file_storage_database>Aoe_LazyCatalogImages_Model_Core_File_Storage_Database</file_storage_database>
+                </rewrite>
+            </core>
+        </models>
+    </global>
+</config>

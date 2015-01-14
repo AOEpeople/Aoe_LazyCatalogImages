@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aoe_LazyCatalogImages>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Core/>
+                <Mage_Catalog/>
+            </depends>
+        </Aoe_LazyCatalogImages>
+    </modules>
+</config>

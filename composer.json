@@ -1,0 +1,28 @@
+{
+  "name": "AOEpeople/Aoe_LazyCatalogImages",
+  "license": "OSL-3.0",
+  "type": "magento-module",
+  "require": {
+    "php": ">=5.1.2",
+    "magento-hackathon/magento-composer-installer": "*"
+  },
+  "authors": [
+    {
+      "name": "Lee Saferite",
+      "email": "{firstname}.{lastname}@aoe.com"
+    }
+  ],
+  "extra": {
+    "map": [
+      [
+        "app/code/community/Aoe/LazyCatalogImages",
+        "app/code/community/Aoe/LazyCatalogImages"
+      ],
+      [
+        "app/etc/modules/Aoe_LazyCatalogImages.xml",
+        "app/etc/modules/Aoe_LazyCatalogImages.xml"
+      ]
+    ]
+  }
+}
+
