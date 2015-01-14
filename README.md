@@ -36,9 +36,9 @@ At later stages, after the token is decoded, a failure results in a redirect to 
         
 ## TODO
 * Add unit tests
-* Change to locally cached image filename to match the URL filename so Apache (or whatever) can directly server the image on future requests
-* Add admin config for cache age
-* Research better way intercepting image requests that using database storage classes
+* Change to locally cached image filename to match the URL filename so Apache (or whatever) can directly serve the image on future requests
+* Add admin config for cache age and enable/disable
+* Research a better way of intercepting image requests than using database storage classes
 
 ## Disclaimer
 This module is experimental and not guaranteed to work.
