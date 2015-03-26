@@ -11,7 +11,7 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
      * @test
      * @coversNothing
      */
-    public function  checkHelper()
+    public function checkHelper()
     {
         /** @var Aoe_LazyCatalogImages_Helper_Catalog_Image $helper */
         $helper = Mage::helper('catalog/image');
@@ -222,7 +222,7 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
             ->with('DUMMY')
             ->will($this->returnValue($params));
 
-        if(!empty($params)) {
+        if (!empty($params)) {
             $helper->expects($this->exactly(intval(isset($params['f']))))
                 ->method('setImageFile')
                 ->with(isset($params['f']) ? $params['f'] : null)
