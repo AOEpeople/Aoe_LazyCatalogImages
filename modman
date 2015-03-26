@@ -1,2 +1,4 @@
-app/code/community/Aoe/LazyCatalogImages
-app/etc/modules/Aoe_LazyCatalogImages.xml
+app/code/community/Aoe/LazyCatalogImages   app/code/community/Aoe/LazyCatalogImages
+app/etc/modules/Aoe_LazyCatalogImages.xml  app/etc/modules/Aoe_LazyCatalogImages.xml
+media/catalog/product/LCI/.htaccess        media/catalog/product/LCI/.htaccess
+lci.php                                    lci.php

@@ -1,0 +1,12 @@
+# This file belongs in the /media/catalog/product/LCI directory
+AddHandler cgi-script .php .pl .py .jsp .asp .htm .shtml .sh .cgi
+Options All -Indexes -ExecCGI
+<IfModule mod_php5.c>
+    php_flag engine 0
+</IfModule>
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule .* ../../../../lci.php [L]
+</IfModule>

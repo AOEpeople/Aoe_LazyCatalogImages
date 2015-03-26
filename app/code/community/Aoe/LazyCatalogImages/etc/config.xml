@@ -20,11 +20,6 @@
             <Aoe_LazyCatalogImages>
                 <class>Aoe_LazyCatalogImages_Model</class>
             </Aoe_LazyCatalogImages>
-            <core>
-                <rewrite>
-                    <file_storage_database>Aoe_LazyCatalogImages_Model_Core_File_Storage_Database</file_storage_database>
-                </rewrite>
-            </core>
         </models>
     </global>
 </config>
