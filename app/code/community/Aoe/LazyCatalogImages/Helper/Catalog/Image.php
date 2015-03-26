@@ -93,7 +93,9 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $this->setAngle($params['fr']);
         }
         if (isset($params['fw']) || isset($params['fh'])) {
-            $this->resize($params['fw'], $params['fh']);
+            $width = (isset($params['fw']) ? $params['fw'] : null);
+            $height = (isset($params['fh']) ? $params['fh'] : null);
+            $this->resize($width, $height);
         }
         if (isset($params['fq'])) {
             $this->setQuality($params['fq']);
