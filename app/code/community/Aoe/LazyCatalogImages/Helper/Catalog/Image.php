@@ -234,7 +234,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     public function decodeToken($token)
     {
         // Decode the token and un-transcribe the non URL-safe characters
-        $token = base64_decode(strtr($token, '-_~', '+/='));
+        $token = base64_decode(strtr($token, '-_~', '+/='), true);
         if (!$token) {
             return false;
         }
