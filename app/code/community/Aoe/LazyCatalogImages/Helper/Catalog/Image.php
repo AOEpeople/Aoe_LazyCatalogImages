@@ -271,6 +271,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     protected function _reset()
     {
         $this->_maxCacheAge = 3600;
+        $this->_keepAspectRatio = true;
+        $this->_keepFrame = true;
+        $this->_keepTransparency = true;
+
         return parent::_reset();
     }
 }
