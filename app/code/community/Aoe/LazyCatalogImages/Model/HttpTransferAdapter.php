@@ -23,7 +23,7 @@ class Aoe_LazyCatalogImages_Model_HttpTransferAdapter extends Varien_File_Transf
         $response = new Zend_Controller_Response_Http();
         $response->setHeader('Content-Length', filesize($filepath));
         $response->setHeader('Content-Type', $this->_detectMimeType(array('name' => $filepath)));
-        if (is_array($options) && array_key_exists('headers', $options) && is_array($options['headers'])) {
+        if (array_key_exists('headers', $options) && is_array($options['headers'])) {
             foreach ($options['headers'] as $header => $value) {
                 $response->setHeader($header, $value);
             }
