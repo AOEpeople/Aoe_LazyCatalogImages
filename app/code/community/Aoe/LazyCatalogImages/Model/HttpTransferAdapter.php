@@ -7,9 +7,15 @@ class Aoe_LazyCatalogImages_Model_HttpTransferAdapter extends Varien_File_Transf
      *
      * @throws Exception
      */
-    public function send(array $options = array())
+    public function send($options = array())
     {
-        $filepath = $options['filepath'];
+        if (is_string($options)) {
+            $options = array('filepath' => $options);
+        } elseif (!is_array($options)) {
+            $options = array();
+        }
+
+        $filepath = (isset($options['filepath']) ? $options['filepath'] : '');
         if (!is_file($filepath) || !is_readable($filepath)) {
             throw new Exception("File '{$filepath}' does not exists.");
         }
