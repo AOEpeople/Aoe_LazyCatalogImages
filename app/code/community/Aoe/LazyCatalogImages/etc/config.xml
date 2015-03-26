@@ -22,4 +22,11 @@
             </Aoe_LazyCatalogImages>
         </models>
     </global>
+    <phpunit>
+        <suite>
+            <modules>
+                <Aoe_LazyCatalogImages/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>

@@ -6,6 +6,11 @@
     "php": ">=5.1.2",
     "magento-hackathon/magento-composer-installer": "*"
   },
+  "require-dev": {
+    "ecomdev/ecomdev_phpunit": "*",
+    "squizlabs/php_codesniffer": "*",
+    "phpmd/phpmd": "*"
+  },
   "authors": [
     {
       "name": "Lee Saferite",
