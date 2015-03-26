@@ -1,5 +1,5 @@
 {
-  "name": "AOEpeople/Aoe_LazyCatalogImages",
+  "name": "aoepeople/aoe_lazycatalogimages",
   "license": "OSL-3.0",
   "type": "magento-module",
   "require": {
@@ -9,7 +9,7 @@
   "authors": [
     {
       "name": "Lee Saferite",
-      "email": "{firstname}.{lastname}@aoe.com"
+      "email": "lee.saferite@aoe.com"
     }
   ],
   "extra": {
