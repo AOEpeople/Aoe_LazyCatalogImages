@@ -83,7 +83,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         $this->_reset();
         $this->_setModel(Mage::getModel('catalog/product_image'));
-        $this->_getModel()->setDestinationSubdir(self::TOKEN_PREFIX);
+        $this->_getModel()->setDestinationSubdir(isset($params['ds']) ? $params['ds'] : self::TOKEN_PREFIX);
 
         if (isset($params['f'])) {
             $this->setImageFile($params['f']);
@@ -170,6 +170,8 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     {
         try {
             $params = array();
+
+            $params['ds'] = $this->_getModel()->getDestinationSubdir();
 
             if ($this->getImageFile()) {
                 $params['f'] = $this->getImageFile();
