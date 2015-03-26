@@ -177,7 +177,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
             if ($this->getImageFile()) {
                 $params['f'] = $this->getImageFile();
-            } else {
+            } elseif ($this->getProduct()) {
                 $params['f'] = $this->getProduct()->getData($this->_getModel()->getDestinationSubdir());
             }
 
