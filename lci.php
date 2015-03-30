@@ -34,16 +34,44 @@ $mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 's
 Mage::init($mageRunCode, $mageRunType);
 
 try {
+
+    $pathInfo = Mage::app()->getRequest()->getPathInfo();
+    $res = preg_match('/'.Aoe_LazyCatalogImages_Helper_Catalog_Image::TOKEN_PREFIX.'\/([A-Za-z0-9-_~\/]*)\.(png|jpe?g|gif)$/', $pathInfo, $matches);
+
+    if (!$res) {
+        // no match or error
+        exit;
+    }
+
+    $token = str_replace('/', '', $matches[1]);
+
     /** @var Aoe_LazyCatalogImages_Helper_Catalog_Image $imageHelper */
     $imageHelper = Mage::helper('Aoe_LazyCatalogImages/Catalog_Image');
-    if ($imageHelper->initFromToken(pathinfo(Mage::app()->getRequest()->getPathInfo(), PATHINFO_FILENAME))) {
+    if ($imageHelper->initFromToken($token)) {
         $cacheAge = $imageHelper->getMaxCacheAge();
         try {
+
+            // let Magento generate the image
+            $outputFile = $imageHelper->getOutputFile();
+
+            // copy/hardlink it to LCI path (pathinfo is safe at this point)
+            $dirname = Mage::getBaseDir() . pathinfo($pathInfo,  PATHINFO_DIRNAME);
+            if (!is_dir($dirname)) {
+                mkdir($dirname, 0775, true);
+            }
+            if (is_dir($dirname)) {
+                $targetFile = Mage::getBaseDir() . $pathInfo;
+                link($outputFile, $targetFile);
+                if (is_file($targetFile)) {
+                    $outputFile = $targetFile;
+                }
+            }
+
             /** @var Aoe_LazyCatalogImages_Model_HttpTransferAdapter $adapter */
             $adapter = Mage::getModel('Aoe_LazyCatalogImages/HttpTransferAdapter');
             $adapter->send(
                 array(
-                    'filepath' => $imageHelper->getOutputFile(),
+                    'filepath' => $outputFile,
                     'headers'  => array(
                         'Cache-Control' => 'public, max-age=' . $cacheAge
                     )
