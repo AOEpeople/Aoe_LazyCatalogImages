@@ -202,6 +202,9 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
             $mediaConfig = Mage::getSingleton('catalog/product_media_config');
             $url = $mediaConfig->getMediaUrl(self::TOKEN_PREFIX . '/' . $token);
+
+            // append original file suffix
+            $url .= '.' . strtolower(pathinfo($params['f'],  PATHINFO_EXTENSION));
         } catch (Exception $e) {
             Mage::logException($e);
             $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
