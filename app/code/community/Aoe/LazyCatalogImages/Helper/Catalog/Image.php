@@ -199,7 +199,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Encode the parameters into a tamper-proof, URL-safe token
             $token = $this->generateToken($params);
 
-            $filename = $this->getFilenameForToken($token, strtolower(pathinfo($params['f'],  PATHINFO_EXTENSION)));
+            $filename = $this->getFilenameForToken($token, strtolower(pathinfo($params['f'], PATHINFO_EXTENSION)));
 
             /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
             $mediaConfig = Mage::getSingleton('catalog/product_media_config');
