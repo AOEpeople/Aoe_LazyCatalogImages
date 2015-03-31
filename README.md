@@ -19,6 +19,7 @@ At later stages, after the token is decoded, a failure results in a redirect to 
 
 ## Contributors
 * [Lee Saferite](https://github.com/LeeSaferite) (AOE)
+* [Fabrizio Branca](https://github.com/fbrnc) (AOE)
 * Pull requests are welcome
 
 ## Compatability
