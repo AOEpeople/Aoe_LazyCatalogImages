@@ -2,6 +2,8 @@
 
 # Aoe_LazyCatalogImages Magento Module
 
+[![Build Status](https://travis-ci.org/AOEpeople/Aoe_LazyCatalogImages.svg)](https://travis-ci.org/AOEpeople/Aoe_LazyCatalogImages)
+
 This module (LCI) is meant to provide URLs for images that contain enough information to render the image at a later point in time.
 The current system pre-renders images and front-loads that overhead into the initial page render process.
 Additionally, if the image cache is flushed and a page is cached with the old image URLs, then the images will be broken.
