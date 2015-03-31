@@ -14,7 +14,13 @@
   "authors": [
     {
       "name": "Lee Saferite",
-      "email": "lee.saferite@aoe.com"
+      "email": "lee.saferite@aoe.com",
+      "role": "Author/Maintainer"
+    },
+    {
+      "name": "Fabrizio Branca",
+      "email": "firstname.lastname@aoe.com",
+      "role": "Contributor/Maintainer"
     }
   ],
   "extra": {

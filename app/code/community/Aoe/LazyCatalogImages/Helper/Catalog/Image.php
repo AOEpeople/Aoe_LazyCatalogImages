@@ -199,15 +199,38 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Encode the parameters into a tamper-proof, URL-safe token
             $token = $this->generateToken($params);
 
+            $filename = $this->getFilenameForToken($token, strtolower(pathinfo($params['f'], PATHINFO_EXTENSION)));
+
             /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
             $mediaConfig = Mage::getSingleton('catalog/product_media_config');
-            $url = $mediaConfig->getMediaUrl(self::TOKEN_PREFIX . '/' . $token);
+            $url = $mediaConfig->getMediaUrl($filename);
         } catch (Exception $e) {
             Mage::logException($e);
             $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
         }
 
         return $url;
+    }
+
+    /**
+     * Returns the filename for a given token
+     * (relative to the media directory)
+     *
+     * @param $token string
+     * @return string
+     */
+    public function getFilenameForToken($token, $suffix)
+    {
+        // directory hashing
+        $filename = preg_replace('/(.{2})(.{2})(.*)/', '\1/\2/\3', $token);
+
+        // add prefix
+        $filename = self::TOKEN_PREFIX . '/' . $filename;
+
+        // append original file suffix
+        $filename .= '.' . $suffix;
+
+        return $filename;
     }
 
     public function generateToken(array $params)
