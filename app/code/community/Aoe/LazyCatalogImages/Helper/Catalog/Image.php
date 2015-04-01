@@ -254,7 +254,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Generate image URL
             $url = $this->getUrlFromToken($token, $extension);
         } catch (Exception $e) {
+            // Log the exception so we can debug the problem later
             Mage::logException($e);
+
+            // Generate placeholder image URL
             $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
         }
 
