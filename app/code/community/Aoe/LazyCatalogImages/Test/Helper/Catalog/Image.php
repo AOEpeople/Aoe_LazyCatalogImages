@@ -269,7 +269,12 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
                 ->will($this->returnSelf());
         }
 
-        $this->assertEquals($result, $helper->initFromToken('DUMMY'));
+        if(is_string($result)) {
+            $this->setExpectedException($result);
+            $helper->initFromToken('DUMMY');
+        } else {
+            $this->assertEquals($result, $helper->initFromToken('DUMMY'));
+        }
     }
 
     /**

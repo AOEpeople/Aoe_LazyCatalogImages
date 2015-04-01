@@ -13,4 +13,4 @@
     wo: ''
     wp: ''
     ws: ''
-  result: true
+  result: Mage_Core_Exception
