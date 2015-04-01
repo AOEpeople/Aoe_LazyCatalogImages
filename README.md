@@ -12,7 +12,8 @@ parameters with a SHA265 hash to prevent tampering by end-users.
 
 The actual rendering of the images is handled via the /lci.php and /media/catalog/product/LCI/.htaccess combo.
 The .htaccess file will rewrite requests for non-existent files to be serviced by /lci.php.
-The entrypoint, lci.php, checks if the requested file is actually a token that should be processed.
+The entrypoint, lci.php, passes the full URL pathinfo to the image helper. The image helper attempts to extract a token from the pathinfo
+and checks if the token is valid and should be processed.
 At the early stage of token decoding a failure results in a 404 response.
 At later stages, after the token is decoded, a failure results in a redirect to a placeholder image.
 
@@ -32,9 +33,10 @@ At later stages, after the token is decoded, a failure results in a redirect to 
     * Mage_Catalog
 
 ## TODO
+* Add admin config flag to enable/disable LCI
+* Add admin config flag to enable/disable local caching of the image under the LCI URL filename so Apache (or whatever) can directly serve the image on future requests
+* Add admin config for cache age
 * Add unit tests
-* Change to locally cached image filename (with config flag) to match the URL filename so Apache (or whatever) can directly serve the image on future requests
-* Add admin config for cache age and enable/disable
 
 ## Disclaimer
 This module is experimental and not guaranteed to work.
