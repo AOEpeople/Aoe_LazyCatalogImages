@@ -12,6 +12,8 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     protected $_keepFrame = true;
     /** @var bool */
     protected $_keepTransparency = true;
+    /** @var string */
+    protected $_outputFile = null;
 
     /**
      * @return int
@@ -134,6 +136,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
      */
     public function getOutputFile()
     {
+        if ($this->_outputFile) {
+            return $this->_outputFile;
+        }
+
         $model = $this->_getModel();
 
         if ($this->getImageFile()) {
@@ -143,7 +149,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         }
 
         if ($model->isCached()) {
-            return $model->getNewFile();
+            $this->_outputFile = $model->getNewFile();
         } else {
             if ($this->_scheduleRotate) {
                 $model->rotate($this->getAngle());
@@ -157,8 +163,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
                 $model->setWatermark($this->getWatermark());
             }
 
-            return $model->saveFile()->getNewFile();
+            return $this->_outputFile = $model->saveFile()->getNewFile();
         }
+
+        return $this->_outputFile;
     }
 
     /**
@@ -297,6 +305,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $this->_keepAspectRatio = true;
         $this->_keepFrame = true;
         $this->_keepTransparency = true;
+        $this->_outputFile = null;
 
         return parent::_reset();
     }
