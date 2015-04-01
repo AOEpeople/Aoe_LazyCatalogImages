@@ -6,8 +6,11 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     const TOKEN_DELIMITER = ':';
     const BASE64_REMAP_SEARCH = '+/=';
     const BASE64_REMAP_REPLACE = '-_~';
+    const REGEX_ENCODE_SEARCH = '/(.{2})(.{2})(.*)/';
+    const REGEX_ENCODE_REPLACE = '\1/\2/\3';
     const REGEX_DECODE_SEARCH = '|([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]+)|';
     const REGEX_DECODE_REPLACE = '\1\2\3';
+    const DEFAULT_EXTENSION = 'jpg';
 
     /** @var int */
     protected $_maxCacheAge = 3600;
@@ -217,11 +220,11 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Encode the parameters into a tamper-proof, URL-safe token
             $token = $this->generateToken($params);
 
-            $filename = $this->getFilenameForToken($token, strtolower(pathinfo($params['f'], PATHINFO_EXTENSION)));
+            // Extract a file extension
+            $extension = (isset($params['f']) ? strtolower(pathinfo($params['f'], PATHINFO_EXTENSION)) : self::DEFAULT_EXTENSION);
 
-            /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
-            $mediaConfig = Mage::getSingleton('catalog/product_media_config');
-            $url = $mediaConfig->getMediaUrl($filename);
+            // Generate image URL
+            $url = $this->getUrlFromToken($token, $extension);
         } catch (Exception $e) {
             Mage::logException($e);
             $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
@@ -231,24 +234,43 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     }
 
     /**
-     * Returns the filename for a given token
-     * (relative to the media directory)
+     * Returns the filename (with dispersion) for a given token
      *
-     * @param $token string
+     * @param string $token
+     * @param string $extension
+     *
      * @return string
      */
-    public function getFilenameForToken($token, $suffix)
+    public function getFilenameFromToken($token, $extension = null)
     {
-        // directory hashing
-        $filename = preg_replace('/(.{2})(.{2})(.*)/', '\1/\2/\3', $token);
+        // Filename dispersion
+        $filename = preg_replace(self::REGEX_ENCODE_SEARCH, self::REGEX_ENCODE_REPLACE, $token);
 
-        // add prefix
+        // Add LCI prefix
         $filename = self::TOKEN_PREFIX . '/' . $filename;
 
-        // append original file suffix
-        $filename .= '.' . $suffix;
+        // Append file extension
+        $extension = trim($extension);
+        if ($extension) {
+            $filename .= '.' . ltrim($extension, '.');
+        }
 
         return $filename;
+    }
+
+    /**
+     * Returns the URL for a given token
+     *
+     * @param string $token
+     * @param string $extension
+     *
+     * @return string
+     */
+    public function getUrlFromToken($token, $extension = null)
+    {
+        /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
+        $mediaConfig = Mage::getSingleton('catalog/product_media_config');
+        return $mediaConfig->getMediaUrl($this->getFilenameFromToken($token, $extension));
     }
 
     public function getTokenFromPathInfo($pathInfo)
