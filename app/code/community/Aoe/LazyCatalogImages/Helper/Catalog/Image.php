@@ -3,6 +3,9 @@
 class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Image
 {
     const TOKEN_PREFIX = 'LCI';
+    const TOKEN_DELIMITER = ':';
+    const BASE64_REMAP_SEARCH = '+/=';
+    const BASE64_REMAP_REPLACE = '-_~';
     const REGEX_DECODE_SEARCH = '|([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]+)|';
     const REGEX_DECODE_REPLACE = '\1\2\3';
 
@@ -277,10 +280,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         // Generate a token with a hash to prevent tampering
         $key = (string)Mage::getConfig()->getNode('global/crypt/key');
-        $token = hash_hmac('sha256', $params, $key) . ':' . $params;
+        $token = hash_hmac('sha256', $params, $key) . self::TOKEN_DELIMITER . $params;
 
         // Base64 encode the token and transcribe the non URL-safe characters
-        $token = strtr(base64_encode($token), '+/=', '-_~');
+        $token = strtr(base64_encode($token), self::BASE64_REMAP_SEARCH, self::BASE64_REMAP_REPLACE);
 
         return $token;
     }
@@ -288,13 +291,13 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     public function decodeToken($token)
     {
         // Decode the token and un-transcribe the non URL-safe characters
-        $token = base64_decode(strtr($token, '-_~', '+/='), true);
+        $token = base64_decode(strtr($token, self::BASE64_REMAP_REPLACE, self::BASE64_REMAP_SEARCH), true);
         if (!$token) {
             return false;
         }
 
         // Parse token
-        $token = explode(':', $token, 2);
+        $token = explode(self::TOKEN_DELIMITER, $token, 2);
         if (count($token) !== 2) {
             return false;
         }
