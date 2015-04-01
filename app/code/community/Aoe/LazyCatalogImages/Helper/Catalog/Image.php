@@ -3,6 +3,8 @@
 class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Image
 {
     const TOKEN_PREFIX = 'LCI';
+    const REGEX_DECODE_SEARCH = '|([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]{2})/([a-zA-Z0-9-_~]+)|';
+    const REGEX_DECODE_REPLACE = '\1\2\3';
 
     /** @var int */
     protected $_maxCacheAge = 3600;
@@ -65,6 +67,11 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     {
         $this->_keepTransparency = (bool)$flag;
         return parent::keepTransparency($flag, $alphaOpacity);
+    }
+
+    public function initFromPathInfo($pathInfo)
+    {
+        return $this->initFromToken($this->getTokenFromPathInfo($pathInfo));
     }
 
     /**
@@ -239,6 +246,22 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $filename .= '.' . $suffix;
 
         return $filename;
+    }
+
+    public function getTokenFromPathInfo($pathInfo)
+    {
+        /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
+        $mediaConfig = Mage::getSingleton('catalog/product_media_config');
+        $prefix = $mediaConfig->getBaseMediaUrlAddition() . '/' . self::TOKEN_PREFIX . '/';
+        $start = strpos($pathInfo, $prefix);
+        if ($start === false) {
+            return null;
+        }
+        $token = substr($pathInfo, $start + strlen($prefix));
+        $token = preg_replace(self::REGEX_DECODE_SEARCH, self::REGEX_DECODE_REPLACE, $token);
+        $token = pathinfo($token, PATHINFO_FILENAME);
+
+        return $token ?: null;
     }
 
     public function generateToken(array $params)
