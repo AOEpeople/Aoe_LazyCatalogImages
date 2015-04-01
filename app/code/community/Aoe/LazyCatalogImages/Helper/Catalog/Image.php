@@ -133,6 +133,34 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $this->setWatermarkSize($params['ws']);
         }
 
+        // let Magento generate the image
+        $outputFile = $this->getOutputFile();
+
+        // Extract a file extension from original filename
+        $extension = ($this->getImageFile() ? strtolower(pathinfo($this->getImageFile(), PATHINFO_EXTENSION)) : self::DEFAULT_EXTENSION);
+
+        // Generate a full path to the LCI version of the cached file
+        $cacheFile = $this->getPathFromToken($token, $extension);
+
+        // If the LCI version of the file doesn't exist then create/link it to the Magento version
+        if (!is_dir($cacheFile) && !is_file($cacheFile)) {
+            // Get the directory for the file
+            $directory = pathinfo($cacheFile, PATHINFO_DIRNAME);
+
+            // Ensure the directory exists
+            if (!is_dir($directory)) {
+                mkdir($directory, 0775, true);
+            }
+
+            // Link cacheFile to outputFile
+            if (is_dir($directory)) {
+                link($outputFile, $cacheFile);
+                if (is_file($cacheFile)) {
+                    $this->_outputFile = $cacheFile;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -176,7 +204,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
                 $model->setWatermark($this->getWatermark());
             }
 
-            return $this->_outputFile = $model->saveFile()->getNewFile();
+            $this->_outputFile = $model->saveFile()->getNewFile();
         }
 
         return $this->_outputFile;
@@ -271,6 +299,21 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
         $mediaConfig = Mage::getSingleton('catalog/product_media_config');
         return $mediaConfig->getMediaUrl($this->getFilenameFromToken($token, $extension));
+    }
+
+    /**
+     * Returns the filename for a given token
+     *
+     * @param string $token
+     * @param string $extension
+     *
+     * @return string
+     */
+    public function getPathFromToken($token, $extension = null)
+    {
+        /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
+        $mediaConfig = Mage::getSingleton('catalog/product_media_config');
+        return $mediaConfig->getMediaPath($this->getFilenameFromToken($token, $extension));
     }
 
     public function getTokenFromPathInfo($pathInfo)
