@@ -20,6 +20,11 @@
             <Aoe_LazyCatalogImages>
                 <class>Aoe_LazyCatalogImages_Model</class>
             </Aoe_LazyCatalogImages>
+            <catalog>
+                <rewrite>
+                    <product_image>Aoe_LazyCatalogImages_Model_Catalog_Product_Image</product_image>
+                </rewrite>
+            </catalog>
         </models>
         <events>
             <clean_catalog_images_cache_after>

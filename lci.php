@@ -36,9 +36,9 @@ Mage::init($mageRunCode, $mageRunType);
 try {
     /** @var Aoe_LazyCatalogImages_Helper_Catalog_Image $imageHelper */
     $imageHelper = Mage::helper('Aoe_LazyCatalogImages/Catalog_Image');
-    if ($imageHelper->initFromPathInfo(Mage::app()->getRequest()->getPathInfo())) {
-        $cacheAge = $imageHelper->getMaxCacheAge();
-        try {
+    try {
+        if ($imageHelper->initFromPathInfo(Mage::app()->getRequest()->getPathInfo())) {
+            $cacheAge = $imageHelper->getMaxCacheAge();
             /** @var Aoe_LazyCatalogImages_Model_HttpTransferAdapter $adapter */
             $adapter = Mage::getModel('Aoe_LazyCatalogImages/HttpTransferAdapter');
             $adapter->send(
@@ -50,16 +50,21 @@ try {
                 )
             );
             exit;
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } else {
             Mage::app()->getResponse()
-                ->setRedirect(Mage::getDesign()->getSkinUrl($imageHelper->getPlaceholder()))
-                ->setHeader('Cache-Control', 'public, max-age=' . intval($cacheAge / 10))
+                ->setHttpResponseCode(404)
                 ->sendResponse();
         }
-    } else {
+    } catch (Aoe_LazyCatalogImages_RedirectException $e) {
         Mage::app()->getResponse()
-            ->setHttpResponseCode(404)
+            ->setRedirect($e->getUrl(), ($e->getCode() == 301 ? 301 : 302))
+            ->setHeader('Cache-Control', 'public, max-age=' . intval($cacheAge / 10))
+            ->sendResponse();
+    } catch (Exception $e) {
+        Mage::logException($e);
+        Mage::app()->getResponse()
+            ->setRedirect(Mage::getDesign()->getSkinUrl($imageHelper->getPlaceholder()))
+            ->setHeader('Cache-Control', 'public, max-age=' . intval($cacheAge / 10))
             ->sendResponse();
     }
 } catch (Exception $e) {
