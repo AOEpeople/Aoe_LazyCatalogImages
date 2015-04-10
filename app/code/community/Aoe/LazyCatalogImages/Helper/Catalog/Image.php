@@ -252,7 +252,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $extension = self::DEFAULT_EXTENSION;
 
             // Extract a file extension if possible
-            if(isset($params['f']) && $params['f'] !== 'no_selection') {
+            if (isset($params['f']) && $params['f'] !== 'no_selection') {
                 $extension = strtolower(pathinfo($params['f'], PATHINFO_EXTENSION));
             }
 
