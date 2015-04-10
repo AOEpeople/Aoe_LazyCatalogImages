@@ -185,11 +185,9 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         $model = $this->_getModel();
 
-        if ($this->getImageFile()) {
-            $model->setBaseFile($this->getImageFile());
-        } else {
-            Mage::throwException('Invalid image helper setup');
-        }
+        // Set the base file.
+        // We do not check if the image file is set here as an empty value will result in a placeholder already.
+        $model->setBaseFile($this->getImageFile());
 
         if ($model->isCached()) {
             $this->_outputFile = $model->getNewFile();
