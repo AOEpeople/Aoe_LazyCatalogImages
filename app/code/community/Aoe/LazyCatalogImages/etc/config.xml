@@ -37,6 +37,15 @@
             </clean_catalog_images_cache_after>
         </events>
     </global>
+    <default>
+        <catalog>
+            <product_image>
+                <lci_active>0</lci_active>
+                <lci_cache>1</lci_cache>
+                <lci_max_age>3600</lci_max_age>
+            </product_image>
+        </catalog>
+    </default>
     <phpunit>
         <suite>
             <modules>
