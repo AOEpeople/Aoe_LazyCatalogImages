@@ -300,10 +300,6 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
      */
     public function _reset(Aoe_LazyCatalogImages_Helper_Catalog_Image $helper)
     {
-        $maxCacheAge = new ReflectionProperty($helper, '_maxCacheAge');
-        $maxCacheAge->setAccessible(true);
-        $maxCacheAge->setValue($helper, 'test');
-
         $keepAspectRatio = new ReflectionProperty($helper, '_keepAspectRatio');
         $keepAspectRatio->setAccessible(true);
         $keepAspectRatio->setValue($helper, 'test');
@@ -320,7 +316,6 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
         $reset->setAccessible(true);
         $reset->invoke($helper);
 
-        $this->assertEquals(3600, $maxCacheAge->getValue($helper));
         $this->assertEquals(true, $keepAspectRatio->getValue($helper));
         $this->assertEquals(true, $keepFrame->getValue($helper));
         $this->assertEquals(true, $keepTransparency->getValue($helper));
