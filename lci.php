@@ -69,4 +69,9 @@ try {
     }
 } catch (Exception $e) {
     Mage::logException($e);
+    Mage::app()->getResponse()
+        ->setHttpResponseCode(500)
+        ->setHeader('Content-Type', 'text/plain')
+        ->setBody('Internal Server Error')
+        ->sendResponse();
 }
