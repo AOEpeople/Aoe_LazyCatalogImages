@@ -248,8 +248,13 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Encode the parameters into a tamper-proof, URL-safe token
             $token = $this->generateToken($params);
 
-            // Extract a file extension
-            $extension = (isset($params['f']) ? strtolower(pathinfo($params['f'], PATHINFO_EXTENSION)) : self::DEFAULT_EXTENSION);
+            // Set a default file extension for caching reasons
+            $extension = self::DEFAULT_EXTENSION;
+
+            // Extract a file extension if possible
+            if(isset($params['f']) && $params['f'] !== 'no_selection') {
+                $extension = strtolower(pathinfo($params['f'], PATHINFO_EXTENSION));
+            }
 
             // Generate image URL
             $url = $this->getUrlFromToken($token, $extension);
