@@ -133,30 +133,32 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $this->setWatermarkSize($params['ws']);
         }
 
-        // let Magento generate the image
-        $outputFile = $this->getOutputFile();
+        if (Mage::getStoreConfigFlag('catalog/product_image/lci_cache')) {
+            // let Magento generate the image
+            $outputFile = $this->getOutputFile();
 
-        // Extract a file extension from original filename
-        $extension = ($this->getImageFile() ? strtolower(pathinfo($this->getImageFile(), PATHINFO_EXTENSION)) : self::DEFAULT_EXTENSION);
+            // Extract a file extension from original filename
+            $extension = ($this->getImageFile() ? strtolower(pathinfo($this->getImageFile(), PATHINFO_EXTENSION)) : self::DEFAULT_EXTENSION);
 
-        // Generate a full path to the LCI version of the cached file
-        $cacheFile = $this->getPathFromToken($token, $extension);
+            // Generate a full path to the LCI version of the cached file
+            $cacheFile = $this->getPathFromToken($token, $extension);
 
-        // If the LCI version of the file doesn't exist then create/link it to the Magento version
-        if (!is_dir($cacheFile) && !is_file($cacheFile)) {
-            // Get the directory for the file
-            $directory = pathinfo($cacheFile, PATHINFO_DIRNAME);
+            // If the LCI version of the file doesn't exist then create/link it to the Magento version
+            if (!is_dir($cacheFile) && !is_file($cacheFile)) {
+                // Get the directory for the file
+                $directory = pathinfo($cacheFile, PATHINFO_DIRNAME);
 
-            // Ensure the directory exists
-            if (!is_dir($directory)) {
-                mkdir($directory, 0775, true);
-            }
+                // Ensure the directory exists
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0775, true);
+                }
 
-            // Link cacheFile to outputFile
-            if (is_dir($directory)) {
-                link($outputFile, $cacheFile);
-                if (is_file($cacheFile)) {
-                    $this->_outputFile = $cacheFile;
+                // Link cacheFile to outputFile
+                if (is_dir($directory)) {
+                    link($outputFile, $cacheFile);
+                    if (is_file($cacheFile)) {
+                        $this->_outputFile = $cacheFile;
+                    }
                 }
             }
         }
@@ -219,6 +221,10 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
      */
     public function __toString()
     {
+        if (!Mage::getStoreConfigFlag('catalog/product_image/lci_active')) {
+            return parent::__toString();
+        }
+
         try {
             $params = array();
 

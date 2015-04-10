@@ -21,6 +21,16 @@
                 <class>Aoe_LazyCatalogImages_Model</class>
             </Aoe_LazyCatalogImages>
         </models>
+        <events>
+            <clean_catalog_images_cache_after>
+                <observers>
+                    <Aoe_LazyCatalogImages>
+                        <class>Aoe_LazyCatalogImages/Observer</class>
+                        <method>cleanCache</method>
+                    </Aoe_LazyCatalogImages>
+                </observers>
+            </clean_catalog_images_cache_after>
+        </events>
     </global>
     <phpunit>
         <suite>
