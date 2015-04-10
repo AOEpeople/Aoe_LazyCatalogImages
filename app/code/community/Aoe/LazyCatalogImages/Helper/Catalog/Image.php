@@ -144,7 +144,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $cacheFile = $this->getPathFromToken($token, $extension);
 
             // If the LCI version of the file doesn't exist then create/link it to the Magento version
-            if (!is_dir($cacheFile) && !is_file($cacheFile)) {
+            if ($outputFile != $cacheFile && !is_dir($cacheFile) && !is_file($cacheFile)) {
                 // Get the directory for the file
                 $directory = pathinfo($cacheFile, PATHINFO_DIRNAME);
 
