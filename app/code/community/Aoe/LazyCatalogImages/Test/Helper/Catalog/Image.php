@@ -27,28 +27,15 @@ class Aoe_LazyCatalogImages_Test_Helper_Catalog_Image extends EcomDev_PHPUnit_Te
 
     /**
      * @test
-     * @dataProvider dataProvider
      * @depends      checkHelper
      *
      * @covers       Aoe_LazyCatalogImages_Helper_Catalog_Image::getMaxCacheAge
-     * @covers       Aoe_LazyCatalogImages_Helper_Catalog_Image::setMaxCacheAge
-     * @covers       Aoe_LazyCatalogImages_Helper_Catalog_Image::_maxCacheAge
      *
-     * @param mixed                                      $maxAge
-     * @param int                                        $result
      * @param Aoe_LazyCatalogImages_Helper_Catalog_Image $helper
      */
-    public function maxCacheAge($maxAge, $result, Aoe_LazyCatalogImages_Helper_Catalog_Image $helper)
+    public function maxCacheAge(Aoe_LazyCatalogImages_Helper_Catalog_Image $helper)
     {
-        $maxAgeBefore = $helper->getMaxCacheAge();
-
-        $this->assertSame($helper, $helper->setMaxCacheAge($maxAge));
-        $this->assertEquals($result, $helper->getMaxCacheAge());
-        $property = new ReflectionProperty($helper, '_maxCacheAge');
-        $property->setAccessible(true);
-        $this->assertEquals($result, $property->getValue($helper));
-
-        $helper->setMaxCacheAge($maxAgeBefore);
+        $this->assertEquals(3600, $helper->getMaxCacheAge());
     }
 
     /**
