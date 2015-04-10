@@ -23,6 +23,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </lci_cache>
+                        <lci_max_age translate="label">
+                            <label>Lazy Loaded Image HTTP Max-Age</label>
+                            <comment>This is the number of seconds passed in the HTTP cache control header for max-age</comment>
+                            <sort_order>10030</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lci_max_age>
                     </fields>
                 </product_image>
             </groups>

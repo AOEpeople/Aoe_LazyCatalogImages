@@ -12,8 +12,6 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     const REGEX_DECODE_REPLACE = '\1\2\3';
     const DEFAULT_EXTENSION = 'jpg';
 
-    /** @var int */
-    protected $_maxCacheAge = 3600;
     /** @var bool */
     protected $_keepAspectRatio = true;
     /** @var bool */
@@ -24,22 +22,13 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     protected $_outputFile = null;
 
     /**
+     * @param Mage_Core_Model_Store|int|null $store
+     *
      * @return int
      */
-    public function getMaxCacheAge()
+    public function getMaxCacheAge($store = null)
     {
-        return $this->_maxCacheAge;
-    }
-
-    /**
-     * @param int $maxAge
-     *
-     * @return $this
-     */
-    public function setMaxCacheAge($maxAge)
-    {
-        $this->_maxCacheAge = intval($maxAge);
-        return $this;
+        return max(intval(Mage::getStoreConfig('catalog/product_image/lci_max_age', $store)), 0);
     }
 
     /**
