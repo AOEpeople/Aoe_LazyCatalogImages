@@ -36,9 +36,9 @@ Mage::init($mageRunCode, $mageRunType);
 try {
     /** @var Aoe_LazyCatalogImages_Helper_Catalog_Image $imageHelper */
     $imageHelper = Mage::helper('Aoe_LazyCatalogImages/Catalog_Image');
+    $cacheAge = $imageHelper->getMaxCacheAge();
     try {
         if ($imageHelper->initFromPathInfo(Mage::app()->getRequest()->getPathInfo())) {
-            $cacheAge = $imageHelper->getMaxCacheAge();
             /** @var Aoe_LazyCatalogImages_Model_HttpTransferAdapter $adapter */
             $adapter = Mage::getModel('Aoe_LazyCatalogImages/HttpTransferAdapter');
             $adapter->send(
