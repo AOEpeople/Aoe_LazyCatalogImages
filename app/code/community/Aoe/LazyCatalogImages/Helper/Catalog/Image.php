@@ -179,7 +179,8 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $model->setBaseFile($this->getImageFile());
 
         // Try to detect if we failed to a placeholder image and trigger a redirect.
-        if ($this->getImageFile() !== 'no_selection' && method_exists($model, 'getIsBaseFilePlaceholder') && $model->getIsBaseFilePlaceholder()) {
+        $noSelection = ($this->getImageFile() === 'no_selection' || $this->getImageFile() === '' || $this->getImageFile() === null);
+        if (!$noSelection && method_exists($model, 'getIsBaseFilePlaceholder') && $model->getIsBaseFilePlaceholder()) {
             $this->setImageFile('no_selection');
             $newUrl = $this->__toString();
             throw new Aoe_LazyCatalogImages_RedirectException($newUrl, 'Invalid file specified');
