@@ -36,5 +36,35 @@
                 </product_image>
             </groups>
         </catalog>
+        <web>
+            <groups>
+                <unsecure>
+                    <fields>
+                        <base_lci_url>
+                            <label>LCI - Base Product Image URL</label>
+                            <comment>This is the URL that will be prepended to the image file URL (should include 'media/catalog/product'). If empty, defaults to local base product image url. Example: http://example.com/media/catalog/product</comment>
+                            <sort_order>1000</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_lci_url>
+                    </fields>
+                </unsecure>
+                <secure>
+                    <fields>
+                        <base_lci_url>
+                            <label>LCI - Base Product Image URL</label>
+                            <comment>This is the URL that will be prepended to the image file URL (should include 'media/catalog/product'). If empty, defaults to local base product image url. Example: http://example.com/media/catalog/product</comment>
+                            <sort_order>1000</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_lci_url>
+                    </fields>
+                </secure>
+            </groups>
+        </web>
     </sections>
 </config>
