@@ -312,18 +312,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         // If the configuration is empty, default to base media url
         if ($mediaBaseUrl = Mage::getStoreConfig($secure ? 'web/secure/base_lci_url' : 'web/unsecure/base_lci_url')) {
-            if (is_string($mediaBaseUrl) && strpos($mediaBaseUrl, '{{') !== false) {
-                if (strpos($mediaBaseUrl, '{{unsecure_base_url}}') !== false) {
-                    $unsecureBaseUrl = $this->getConfig(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
-                    $mediaBaseUrl = str_replace('{{unsecure_base_url}}', $unsecureBaseUrl, $mediaBaseUrl);
-                } elseif (strpos($mediaBaseUrl, '{{secure_base_url}}') !== false) {
-                    $secureBaseUrl = $this->getConfig(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL);
-                    $mediaBaseUrl = str_replace('{{secure_base_url}}', $secureBaseUrl, $mediaBaseUrl);
-                } elseif (strpos($mediaBaseUrl, '{{base_url}}') !== false) {
-                    $mediaBaseUrl = Mage::getConfig()->substDistroServerVars($mediaBaseUrl);
-                }
-            }
-            $mediaUrl = rtrim($mediaBaseUrl, '/') . '/' . $fileName;
+            $mediaUrl = rtrim($mediaBaseUrl, '/') . '/' . str_replace(DS, '/', $fileName);
         } else {
             $mediaUrl = $mediaConfig->getMediaUrl($fileName);
         }
