@@ -180,7 +180,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         // Try to detect if we failed to a placeholder image and trigger a redirect.
         $noSelection = ($this->getImageFile() === 'no_selection' || $this->getImageFile() === '' || $this->getImageFile() === null);
-        if (!$noSelection && method_exists($model, 'getIsBaseFilePlaceholder') && $model->getIsBaseFilePlaceholder()) {
+        if (!$noSelection && $this->isBaseFilePlaceholder($model)) {
             $this->setImageFile('no_selection');
             $newUrl = $this->__toString();
             throw new Aoe_LazyCatalogImages_RedirectException($newUrl, 'Invalid file specified');
@@ -416,5 +416,14 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $this->_outputFile = null;
 
         return parent::_reset();
+    }
+
+    /**
+     * @param $model
+     * @return mixed
+     */
+    public function isBaseFilePlaceholder(Mage_Catalog_Model_Product_Image $model)
+    {
+        return Mage::helper('Aoe_LazyCatalogImages/placeholder')->getIsBaseFilePlaceholder($model);
     }
 }
