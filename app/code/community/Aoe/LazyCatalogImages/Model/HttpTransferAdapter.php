@@ -29,6 +29,8 @@ class Aoe_LazyCatalogImages_Model_HttpTransferAdapter extends Varien_File_Transf
             }
         }
 
+        $response->setHeader('ETag', md5_file($filepath));
+
         $response->sendHeaders();
         readfile($filepath);
     }
