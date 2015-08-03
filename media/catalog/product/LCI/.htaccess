@@ -8,5 +8,5 @@ Options All -Indexes -ExecCGI
     Options +FollowSymLinks
     RewriteEngine on
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule .* %{REQUEST_URI}/../../../../../../lci.php [L]
+    RewriteRule .* %{REQUEST_URI}/../../../../../../../lci.php [L]
 </IfModule>
