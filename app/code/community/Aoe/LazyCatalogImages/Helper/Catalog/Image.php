@@ -220,6 +220,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             return parent::__toString();
         }
 
+        Varien_Profiler::start('LCI: Aoe_LazyCatalogImages_Helper_Catalog_Image->__toString');
         try {
             $params = array();
 
@@ -266,7 +267,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             // Generate placeholder image URL
             $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
         }
-
+        Varien_Profiler::stop('LCI: Aoe_LazyCatalogImages_Helper_Catalog_Image->__toString');
         return $url;
     }
 
@@ -305,6 +306,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
      */
     public function getUrlFromToken($token, $extension = null)
     {
+        Varien_Profiler::start('LCI: Aoe_LazyCatalogImages_Helper_Catalog_Image->getUrlFromToken');
         /** @var Mage_Catalog_Model_Product_Media_Config $mediaConfig */
         $mediaConfig = Mage::getSingleton('catalog/product_media_config');
         $fileName    = $this->getFilenameFromToken($token, $extension);
@@ -316,6 +318,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         } else {
             $mediaUrl = $mediaConfig->getMediaUrl($fileName);
         }
+        Varien_Profiler::stop('LCI: Aoe_LazyCatalogImages_Helper_Catalog_Image->getUrlFromToken');
         return $mediaUrl;
     }
 
