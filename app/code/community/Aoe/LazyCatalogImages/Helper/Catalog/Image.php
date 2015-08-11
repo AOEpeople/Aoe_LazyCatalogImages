@@ -236,9 +236,9 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $params['fw'] = $this->_getModel()->getWidth();
             $params['fh'] = $this->_getModel()->getHeight();
             $params['fq'] = $this->_getModel()->getQuality();
-            $params['fa'] = $this->_keepAspectRatio;
-            $params['ft'] = $this->_keepTransparency;
-            $params['ff'] = $this->_keepFrame;
+            $params['fa'] = $this->_keepAspectRatio ? 1 : 0;
+            $params['ft'] = $this->_keepTransparency ? 1 : 0;
+            $params['ff'] = $this->_keepFrame ? 1 : 0;
 
             if ($this->getWatermark()) {
                 $params['wf'] = $this->getWatermark();
