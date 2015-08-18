@@ -3,7 +3,7 @@
 class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Image
 {
     const TOKEN_PREFIX = 'LCI';
-    const TOKEN_DELIMITER = ':';
+    const TOKEN_LENGTH = 32;  // raw sha256 hmac
     const BASE64_REMAP_SEARCH = '+/=';
     const BASE64_REMAP_REPLACE = '-_~';
     const REGEX_ENCODE_SEARCH = '/(.{2})(.{2})(.*)/';
@@ -236,6 +236,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $params['fw'] = $this->_getModel()->getWidth();
             $params['fh'] = $this->_getModel()->getHeight();
             $params['fq'] = $this->_getModel()->getQuality();
+            // use 1 and 0 instead of true and false to lower the filename length
             $params['fa'] = $this->_keepAspectRatio ? 1 : 0;
             $params['ft'] = $this->_keepTransparency ? 1 : 0;
             $params['ff'] = $this->_keepFrame ? 1 : 0;
@@ -366,7 +367,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         // Generate a token with a hash to prevent tampering
         $key = (string)Mage::getConfig()->getNode('global/crypt/key');
-        $token = hash_hmac('sha256', $params, $key) . self::TOKEN_DELIMITER . $params;
+        $token = hash_hmac('sha256', $params, $key, true) . $params;
 
         // Base64 encode the token and transcribe the non URL-safe characters
         $token = strtr(base64_encode($token), self::BASE64_REMAP_SEARCH, self::BASE64_REMAP_REPLACE);
@@ -383,16 +384,15 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         }
 
         // Parse token
-        $token = explode(self::TOKEN_DELIMITER, $token, 2);
-        if (count($token) !== 2) {
+        if (strlen($token) <= self::TOKEN_LENGTH) {
             return false;
         }
-        $hash = $token[0];
-        $params = $token[1];
+        $hash = substr($token, 0, self::TOKEN_LENGTH);
+        $params = substr($token, self::TOKEN_LENGTH);
 
         // Validate hash
-        $key = (string)Mage::getConfig()->getNode('global/crypt/key');
-        $expectedHash = hash_hmac('sha256', $params, $key);
+        $key = (string) Mage::getConfig()->getNode('global/crypt/key');
+        $expectedHash = hash_hmac('sha256', $params, $key, true);
         if ($hash !== $expectedHash) {
             return false;
         }
@@ -422,7 +422,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     }
 
     /**
-     * @param $model
+     * @param Mage_Catalog_Model_Product_Image $model product image model
      * @return mixed
      */
     public function isBaseFilePlaceholder(Mage_Catalog_Model_Product_Image $model)
