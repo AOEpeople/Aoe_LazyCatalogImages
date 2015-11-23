@@ -24,6 +24,16 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     /**
      * @param Mage_Core_Model_Store|int|null $store
      *
+     * @return bool
+     */
+    public function isLciLogEnabled($store = null)
+    {
+        return Mage::getStoreConfigFlag('catalog/product_image/lci_log_enabled', $store);
+    }
+
+    /**
+     * @param Mage_Core_Model_Store|int|null $store
+     *
      * @return int
      */
     public function getMaxCacheAge($store = null)

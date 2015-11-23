@@ -38,6 +38,7 @@
                 <lci_active>0</lci_active>
                 <lci_cache>1</lci_cache>
                 <lci_max_age>3600</lci_max_age>
+                <lci_log_enabled>0</lci_log_enabled>
             </product_image>
         </catalog>
     </default>
