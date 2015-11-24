@@ -180,7 +180,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     {
         if ($this->_outputFile) {
             if ($this->isLciLogEnabled() === true) {
-                Mage::log($this->_outputFile, null, 'lci_image_cached.log', true);
+                Mage::log('[LCI: IMAGE FROM CACHE] - ' . $this->_outputFile, null, 'lci.log', true);
             }
             return $this->_outputFile;
         }
@@ -202,7 +202,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         if ($model->isCached()) {
             $this->_outputFile = $model->getNewFile();
             if ($this->isLciLogEnabled() === true) {
-                Mage::log($this->_outputFile, null, 'lci_image_exist.log', true);
+                Mage::log('[LCI: IMAGE EXIST] - ' . $this->_outputFile, null, 'lci.log', true);
             }
         } else {
             if ($this->_scheduleRotate) {
@@ -219,7 +219,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
             $this->_outputFile = $model->saveFile()->getNewFile();
             if ($this->isLciLogEnabled() === true) {
-                Mage::log($this->_outputFile, null, 'lci_image_created.log', true);
+                Mage::log('[LCI: IMAGE CREATED] - ' . $this->_outputFile, null, 'lci.log', true);
             }
         }
 
