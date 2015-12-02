@@ -45,7 +45,9 @@ try {
                 array(
                     'filepath' => $imageHelper->getOutputFile(),
                     'headers'  => array(
-                        'Cache-Control' => 'public, max-age=' . $cacheAge
+                        'Cache-Control' => 'public, max-age=' . $cacheAge,
+                        'Last-Modified' => date('r'),
+                        'Expires'       => gmdate("D, d M Y H:i:s", time() + $cacheAge) . " GMT"
                     )
                 )
             );
