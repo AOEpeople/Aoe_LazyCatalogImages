@@ -32,6 +32,14 @@
       [
         "app/etc/modules/Aoe_LazyCatalogImages.xml",
         "app/etc/modules/Aoe_LazyCatalogImages.xml"
+      ],
+      [
+        "media/catalog/product/LCI/.htaccess",
+        "media/catalog/product/LCI/.htaccess"
+      ],
+      [
+        "lci.php",
+        "lci.php"
       ]
     ]
   }
