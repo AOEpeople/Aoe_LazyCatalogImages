@@ -31,7 +31,7 @@ umask(0);
 
 $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
 $mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store';
-Mage::init($mageRunCode, $mageRunType);
+Mage::init($mageRunCode, $mageRunType, array('cache' => array('disallow_save' => true)));
 
 try {
     /** @var Aoe_LazyCatalogImages_Helper_Catalog_Image $imageHelper */
