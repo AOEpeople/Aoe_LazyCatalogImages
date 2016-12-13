@@ -22,18 +22,6 @@
       "email": "firstname.lastname@aoe.com",
       "role": "Contributor/Maintainer"
     }
-  ],
-  "extra": {
-    "map": [
-      [
-        "app/code/community/Aoe/LazyCatalogImages",
-        "app/code/community/Aoe/LazyCatalogImages"
-      ],
-      [
-        "app/etc/modules/Aoe_LazyCatalogImages.xml",
-        "app/etc/modules/Aoe_LazyCatalogImages.xml"
-      ]
-    ]
-  }
+  ]
 }
 
