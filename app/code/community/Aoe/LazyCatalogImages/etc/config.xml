@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Aoe_LazyCatalogImages>
-            <version>0.6.0</version>
+            <version>1.0.1</version>
         </Aoe_LazyCatalogImages>
     </modules>
     <global>
