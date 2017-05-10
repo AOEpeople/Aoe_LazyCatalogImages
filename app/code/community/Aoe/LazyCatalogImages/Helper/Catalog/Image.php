@@ -4,6 +4,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 {
     const TOKEN_PREFIX = 'LCI';
     const TOKEN_LENGTH = 32;  // raw sha256 hmac
+    const LEGACY_TOKEN_DELIMITER = ':';
     const BASE64_REMAP_SEARCH = '+/=';
     const BASE64_REMAP_REPLACE = '-_~';
     const REGEX_ENCODE_SEARCH = '/(.{2})(.{2})(.*)/';
@@ -404,7 +405,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
 
         // Parse token
         if (strlen($token) <= self::TOKEN_LENGTH) {
-            return false;
+            return $this->decodeLegacyToken($token);
         }
         $hash = substr($token, 0, self::TOKEN_LENGTH);
         $params = substr($token, self::TOKEN_LENGTH);
@@ -412,6 +413,32 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         // Validate hash
         $key = (string) Mage::getConfig()->getNode('global/crypt/key');
         $expectedHash = hash_hmac('sha256', $params, $key, true);
+        if ($hash !== $expectedHash) {
+            return $this->decodeLegacyToken($token);
+        }
+
+        // Decode the serialized JSON data
+        $params = json_decode($params, true);
+        if (!is_array($params)) {
+            return $this->decodeLegacyToken($token);
+        }
+
+        return $params;
+    }
+
+    public function decodeLegacyToken($token)
+    {
+        // Parse token
+        $token = explode(self::LEGACY_TOKEN_DELIMITER, $token, 2);
+        if (count($token) !== 2) {
+            return false;
+        }
+        $hash = $token[0];
+        $params = $token[1];
+
+        // Validate hash
+        $key = (string) Mage::getConfig()->getNode('global/crypt/key');
+        $expectedHash = hash_hmac('sha256', $params, $key);
         if ($hash !== $expectedHash) {
             return false;
         }
