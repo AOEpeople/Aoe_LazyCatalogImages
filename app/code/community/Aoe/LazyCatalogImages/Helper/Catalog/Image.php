@@ -385,6 +385,12 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         // JSON serialize the parameters
         $params = json_encode($params);
 
+        // Shorten the filename using ZLIB, if it's better.
+        $compressed = gzcompress($params, 9);
+        if (strlen($compressed) < strlen($params)) {
+            $params = $compressed;
+        }
+
         // Generate a token with a hash to prevent tampering
         $key = (string)Mage::getConfig()->getNode('global/crypt/key');
         $token = hash_hmac('sha256', $params, $key, true) . $params;
@@ -415,6 +421,11 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $expectedHash = hash_hmac('sha256', $params, $key, true);
         if ($hash !== $expectedHash) {
             return $this->decodeLegacyToken($token);
+        }
+
+        // Decompress JSON if compressed.  ZLIB cannot start with these bytes.
+        if (substr($params, 0, 2) !== '{"') {
+            $params = gzuncompress($params);
         }
 
         // Decode the serialized JSON data
