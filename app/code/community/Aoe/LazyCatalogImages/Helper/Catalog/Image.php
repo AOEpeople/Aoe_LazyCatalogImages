@@ -18,6 +18,8 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
     protected $_keepFrame = true;
     /** @var bool */
     protected $_keepTransparency = true;
+    /** @var bool */
+    protected $_constrainOnly = false;
     /** @var string */
     protected $_outputFile = null;
 
@@ -74,6 +76,17 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         return parent::keepTransparency($flag, $alphaOpacity);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * NOTE: This is just to capture the flag locally
+     */
+    public function constrainOnly($flag)
+    {
+        $this->_constrainOnly = (bool)$flag;
+        return parent::constrainOnly($flag);
+    }
+    
     public function initFromPathInfo($pathInfo)
     {
         return $this->initFromToken($this->getTokenFromPathInfo($pathInfo));
@@ -118,6 +131,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $this->keepAspectRatio(isset($params['fa']) && $params['fa']);
         $this->keepTransparency(isset($params['ft']) && $params['ft']);
         $this->keepFrame(isset($params['ff']) && $params['ff']);
+        $this->constrainOnly(isset($params['fc']) && $params['fc']);
 
         if (isset($params['wf'])) {
             $this->setWatermark($params['wf']);
@@ -259,6 +273,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
             $params['fa'] = $this->_keepAspectRatio ? 1 : 0;
             $params['ft'] = $this->_keepTransparency ? 1 : 0;
             $params['ff'] = $this->_keepFrame ? 1 : 0;
+            $params['fc'] = $this->_constrainOnly ? 1 : 0;
 
             if ($this->getWatermark()) {
                 $params['wf'] = $this->getWatermark();
@@ -435,6 +450,7 @@ class Aoe_LazyCatalogImages_Helper_Catalog_Image extends Mage_Catalog_Helper_Ima
         $this->_keepAspectRatio = true;
         $this->_keepFrame = true;
         $this->_keepTransparency = true;
+        $this->_constrainOnly = false;
         $this->_outputFile = null;
 
         return parent::_reset();
